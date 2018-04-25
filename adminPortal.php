@@ -1,5 +1,7 @@
 <?php
 
+$ticketNum = $_POST['codeScan'];
+
 $connection = mysqli_connect("localhost","jhughes","memoirsfromspace","jhughes");
 
 if (mysqli_connect_errno())
@@ -7,9 +9,33 @@ if (mysqli_connect_errno())
   echo "Failed to connect to MySQL:" . mysqli_connect_error();
 }
 
-$sql = "SELECT cruisename ,count(*) as number FROM TicketSales GROUP BY cruisename";
 
+$sql = "SELECT cruisename ,count(*) as number FROM TicketSales GROUP BY cruisename";
 $result = mysqli_query($connection,$sql);
+
+$checkTicket = "SELECT * FROM TicketSales WHERE ticketnumber = '$ticketNum'";
+$checkTicketResult = mysqli_query($connection,$checkTicket);
+
+echo $checkTicketResult->num_rows;
+
+if(isset($ticketNum)){	
+	
+	if($checkTicketResult->num_rows > 0){
+	
+		$useTicket = "UPDATE TicketSales SET Used = true WHERE ticketnumber = '$ticketNum'";
+		$usedTicket = mysqli_query($connection,$useTicket);
+		echo "<script>alert('Ticket Scanned!');</script>";
+	
+		}
+		else{
+	
+	 		echo "<script>alert('Not a valid Ticket!');</script>";
+
+		}
+}
+
+
+
 ?>
 <html>
 <!-- Latest compiled and minified CSS -->
@@ -66,10 +92,10 @@ function drawChart() {
 <body>
 <div class="row">
     <div class="col-lg-4">
-    <form action="">
+    <form method="post" action=<?php echo $_SERVER['PHP_SELF'];?>>
     <div class="form-group">
       <label>Scan Code:</label>
-      <input type="text" class="form-control" id="codeScan" placeholder="Enter code to scan">
+      <input type="text" class="form-control" name="codeScan" id="codeScan" placeholder="Enter code to scan">
     </div>
     <button type="submit" class="btn btn-default">Submit</button>
   </form>
