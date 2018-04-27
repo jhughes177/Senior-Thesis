@@ -65,7 +65,7 @@ function drawChart() {
 	['Cruise Name', 'Number'],
 	<?php
 	 while($row = mysqli_fetch_array($result)){
-	 if($row['cruisename'] != ''){
+	 if($row['cruisename'] != '' && $row['Used'] != '0'){
 	   	echo "['" .$row['cruisename'] . "'," .$row["number"]."],";
 	   	}
 	  }

@@ -31,7 +31,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "INSERT INTO TicketSales VALUES ('".$ticketNum."', '20', 'Boston Ferry to Charlestown',false)";
+$sql = "INSERT INTO TicketSales VALUES ('".$ticketNum."', '50', 'Boston Ferry to Provincetown',false)";
 
 if ($conn->query($sql) === TRUE) {
     echo "New record created successfully";
