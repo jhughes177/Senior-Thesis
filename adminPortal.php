@@ -1,5 +1,10 @@
 <?php
 
+session_start();
+if(!isset($_SESSION['username'])){
+   header("Location:http://digdug.cs.endicott.edu/~jhughes/Thesis/loginPortal.php");
+}
+
 $ticketNum = $_POST['codeScan'];
 
 $connection = mysqli_connect("localhost","jhughes","memoirsfromspace","jhughes");
@@ -15,8 +20,6 @@ $result = mysqli_query($connection,$sql);
 
 $checkTicket = "SELECT * FROM TicketSales WHERE ticketnumber = '$ticketNum'";
 $checkTicketResult = mysqli_query($connection,$checkTicket);
-
-echo $checkTicketResult->num_rows;
 
 if(isset($ticketNum)){	
 	
@@ -101,6 +104,11 @@ function drawChart() {
   </form>
     </div>
     <div class ="col-lg-10" id="chartOfCruises"></div>
+    <div class ="col-lg-4">
+    <form action="logOut.php">
+            <input type="submit" name="submit" value="Log Out." id="Logout">
+    </form> 
+    </div>
 </div>
 </body>
 </html>

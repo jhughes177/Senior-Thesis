@@ -20,7 +20,6 @@ $DB_DATABASE = "jhughes";
 		#$numrows = mysqli_num_rows($query);
 		$numrows = $query->num_rows;
 	    #echo "SELECT * FROM LoginInfo WHERE username =" .$userName."";
-
 		#echo $userName, $passWord;
 		#print_r($query->fetch_assoc());
 		#print_r(mysqli_num_rows($query));
@@ -32,8 +31,8 @@ $DB_DATABASE = "jhughes";
 		$dbUserName = $row['username'];
 		$dbPassWord = $row['password'];
 		
-		echo $dbUserName;
-		
+	    $_SESSION['username'] = $dbUserName;
+
 		}
 		
 		if($userName==$dbUserName && $passWord==$dbPassWord){
