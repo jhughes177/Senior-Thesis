@@ -14,16 +14,25 @@ if (mysqli_connect_errno())
   echo "Failed to connect to MySQL:" . mysqli_connect_error();
 }
 
-
 $sql = "SELECT cruisename ,count(*) as number FROM TicketSales GROUP BY cruisename";
 $result = mysqli_query($connection,$sql);
 
 $checkTicket = "SELECT * FROM TicketSales WHERE ticketnumber = '$ticketNum'";
 $checkTicketResult = mysqli_query($connection,$checkTicket);
 
+$checkTicketUsed = "SELECT * FROM TicketSales WHERE ticketnumber = '$ticketNum' AND Used = '1'";
+$checkedTicketResult = mysqli_query($connection,$checkTicketUsed);
+
 if(isset($ticketNum)){	
 	
-	if($checkTicketResult->num_rows > 0){
+	
+   if($checkedTicketResult->num_rows > 0){
+			
+	echo "<script>alert('Ticket has already been scanned!');</script>";
+
+	}
+	else if($checkTicketResult->num_rows > 0){
+	
 	
 		$useTicket = "UPDATE TicketSales SET Used = true WHERE ticketnumber = '$ticketNum'";
 		$usedTicket = mysqli_query($connection,$useTicket);
@@ -31,6 +40,7 @@ if(isset($ticketNum)){
 	
 		}
 		else{
+		
 	
 	 		echo "<script>alert('Not a valid Ticket!');</script>";
 
@@ -68,7 +78,7 @@ function drawChart() {
 	['Cruise Name', 'Number'],
 	<?php
 	 while($row = mysqli_fetch_array($result)){
-	 if($row['cruisename'] != '' && $row['Used'] != '0'){
+	 if($row['cruisename'] != '' && $row['Used'] != 'false'){
 	   	echo "['" .$row['cruisename'] . "'," .$row["number"]."],";
 	   	}
 	  }
